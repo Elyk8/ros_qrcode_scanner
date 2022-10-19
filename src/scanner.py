@@ -5,11 +5,9 @@ import cv2
 import os
 import time
 
-from threading import Timer
 from pyzbar.pyzbar import decode
 from std_msgs.msg import String
-from sensor_msgs.msg import Image
-from cv_bridge import CvBridge, CvBridgeError
+from sensor_msgs.msg import Image from cv_bridge import CvBridge, CvBridgeError
 import sys
 
 # Preamble
@@ -32,8 +30,9 @@ class image_converter:
         global bridge
         # convert ros_image into an opencv-compatible image
         try:
-            cv_image = self.bridge.imgmsg_to_cv2(ros_image,
-                                                 desired_encoding="passthrough")
+            cv_image = self.bridge.imgmsg_to_cv2(
+                ros_image, desired_encoding="passthrough"
+            )
         except CvBridgeError as e:
             print(e)
 
@@ -70,5 +69,5 @@ def main(args):
     cv2.destroyAllWindows()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv)
