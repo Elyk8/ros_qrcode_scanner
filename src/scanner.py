@@ -4,10 +4,12 @@ import rospy
 import cv2
 import os
 import time
+import numpy as np
 
 from pyzbar.pyzbar import decode
 from std_msgs.msg import String
-from sensor_msgs.msg import Image from cv_bridge import CvBridge, CvBridgeError
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge, CvBridgeError
 import sys
 
 # Preamble
@@ -41,13 +43,27 @@ class image_converter:
         t = time.localtime()
         current_time = time.strftime("%Y-%m-%d %H:%M:%S", t)
         for code in decode(cv_image):
-            # Get geometry of identified barcode/qrcode and draw a rectangle around it
-            (x, y, w, h) = code.rect
-            cv2.rectangle(cv_image, (x, y), (x + w, y + h), (0, 0, 255), 2)
-
             print(code.type)
             data = code.data.decode("utf-8")
             print(data)
+
+            # Get geometry of identified barcode/qrcode and draw a rectangle around it
+            pts = np.array([code.polygon], np.int32)
+            pts = pts.reshape((-1, 1, 2))
+            cv2.polylines(cv_image, [pts], True, (255, 0, 255), 5)
+
+            pts2 = code.rect
+            cv2.putText(
+                cv_image,
+                data,
+                (pts2[0], pts2[1]),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.9,
+                (255, 0, 255),
+                2,
+            )
+
+            # Only append to file if it has not been recorded before
             if not current_time == time.strftime("%Y-%m-%d %H:%M:%S", t):
                 f.write(current_time + " ; " + data + "\n")
 
