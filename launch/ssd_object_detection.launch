@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <launch>
-  <node pkg="ssd_object_detection" type="ssd.py" name="ssd_object_detection_node" output="screen"></node>
+  <node pkg="camera_modules" type="ssd.py" name="ssd_object_detection_node" output="screen"></node>
 </launch>
