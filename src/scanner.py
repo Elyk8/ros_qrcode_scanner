@@ -14,7 +14,7 @@ import sys
 
 # Preamble
 save_path = os.path.expanduser("~/Documents/Capstone/TurtleBot3/qrdata/")
-print(save_path)
+print("Save Path" + save_path)
 
 if not os.path.exists(save_path):
     os.makedirs(save_path)
@@ -45,11 +45,13 @@ class image_converter:
         for code in decode(cv_image):
             # print(code.type)
 
-            if code.type == "EAN13":
+            data = code.data.decode("utf-8")
+            if code.type == "CODE128":
+                data = int(data)
                 recoveredbytes = data.to_bytes((data.bit_length() + 7) // 8, "little")
                 data = recoveredbytes[:-1].decode("utf-8").strip()  # Strip pad after decoding
-            else:
-                data = code.data.decode("utf-8")
+            # else:
+            #     data = code.data.decode("utf-8")
 
             print(data)
 
