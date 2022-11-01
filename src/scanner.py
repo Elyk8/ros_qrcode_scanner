@@ -3,7 +3,7 @@
 import rospy
 import cv2
 import os
-import time
+# import time
 import numpy as np
 
 from pyzbar.pyzbar import decode
@@ -39,9 +39,9 @@ class image_converter:
             print(e)
 
         # OpenCV Code goes after this comment
-        f = open(save_path + "data.txt", "a")
-        t = time.localtime()
-        current_time = time.strftime("%Y-%m-%d %H:%M:%S", t)
+        # f = open(save_path + "data.txt", "a")
+        # t = time.localtime()
+        # current_time = time.strftime("%Y-%m-%d %H:%M:%S", t)
         for code in decode(cv_image):
             # print(code.type)
 
