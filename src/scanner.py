@@ -43,8 +43,14 @@ class image_converter:
         t = time.localtime()
         current_time = time.strftime("%Y-%m-%d %H:%M:%S", t)
         for code in decode(cv_image):
-            print(code.type)
-            data = code.data.decode("utf-8")
+            # print(code.type)
+
+            if code.type == "EAN13":
+                recoveredbytes = data.to_bytes((data.bit_length() + 7) // 8, "little")
+                data = recoveredbytes[:-1].decode("utf-8").strip()  # Strip pad after decoding
+            else:
+                data = code.data.decode("utf-8")
+
             print(data)
 
             # Get geometry of identified barcode/qrcode and draw a rectangle around it
@@ -62,10 +68,7 @@ class image_converter:
                 (255, 0, 255),
                 2,
             )
-
-            # Only append to file if it has not been recorded before
-            if not current_time == time.strftime("%Y-%m-%d %H:%M:%S", t):
-                f.write(current_time + " ; " + data + "\n")
+            # f.write(current_time + " ; " + data + "\n")
 
         f.close()
         cv2.imshow("Image window", cv_image)
