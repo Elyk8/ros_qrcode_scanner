@@ -20,6 +20,7 @@ if not os.path.exists(save_path):
     os.makedirs(save_path)
     print(save_path)
 
+
 class image_converter:
     def __init__(self):
         self.bridge = CvBridge()
@@ -72,8 +73,8 @@ class image_converter:
             # f.write(current_time + " ; " + data + "\n")
 
         # f.close()
-        img = cv2.resize(cv_image, (960, 600))
-        cv2.imshow("Image window", img)
+        # img = cv2.resize(cv_image, (960, 600))
+        cv2.imshow("Image window", cv_image)
         cv2.waitKey(3)
 
 
